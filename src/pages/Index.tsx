@@ -5,8 +5,8 @@ const Index = () => {
   useEffect(() => {
     // Initialize chatbot widget with demo configuration
     const cleanup = createChatWidget({
-      token: 'demo-token-12345',
-      baseUrl: 'https://demo-api.example.com', // Demo endpoint
+      token: 'f6516db5-be0b-443d-a6bb-d1b3ad6babb9',
+      baseUrl: 'http://localhost:3000', // Demo endpoint
       welcomeMessage: 'Welcome! This is a demo chatbot widget. Try sending a message!',
       position: 'bottom-right',
     });
@@ -71,8 +71,8 @@ const Index = () => {
                 <code className="block bg-muted p-4 rounded-lg text-sm whitespace-pre">
 {`createChatWidget({
   selector: '#chat-container',
-  token: 'YOUR_API_TOKEN',
-  baseUrl: 'https://your-api.com',
+  token: 'f6516db5-be0b-443d-a6bb-d1b3ad6babb9',
+  baseUrl: 'http://localhost:3000/api/chat',
   welcomeMessage: 'Hello! How can I help?'
 });`}
                 </code>
