@@ -427,3 +427,81 @@
     right: 16px;
   }
 }
+
+/* Markdown Styles */
+.message-text .markdown-p {
+  margin: 0 0 8px 0;
+}
+
+.message-text .markdown-p:last-child {
+  margin-bottom: 0;
+}
+
+.message-text .markdown-strong {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.message-text .markdown-em {
+  font-style: italic;
+  color: #374151;
+}
+
+.message-text .markdown-code {
+  background: #f1f5f9;
+  color: #64748b;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  border: 1px solid #e2e8f0;
+}
+
+.message-text .markdown-ul,
+.message-text .markdown-ol {
+  margin: 8px 0;
+  padding-left: 16px;
+}
+
+.message-text .markdown-li {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.message-text .markdown-blockquote {
+  border-left: 3px solid #d1d5db;
+  margin: 8px 0;
+  padding-left: 12px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.message-text .markdown-h1 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 12px 0 8px 0;
+  color: #111827;
+}
+
+.message-text .markdown-h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 10px 0 6px 0;
+  color: #111827;
+}
+
+.message-text .markdown-h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 8px 0 4px 0;
+  color: #111827;
+}
+
+/* Override default margins for first and last elements */
+.message-text > *:first-child {
+  margin-top: 0;
+}
+
+.message-text > *:last-child {
+  margin-bottom: 0;
+}

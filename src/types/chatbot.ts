@@ -21,7 +21,7 @@ export interface ChatbotDesign {
 export interface ChatbotConfig {
   selector?: string;
   token?: string;
-  baseUrl?: string;
+  baseUrl: string;
   theme?: 'light' | 'dark';
   position?: 'bottom-right' | 'bottom-left';
   welcomeMessage?: string;

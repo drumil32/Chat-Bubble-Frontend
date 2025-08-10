@@ -19,14 +19,13 @@ const defaultDesign: ChatbotDesign = {
 };
 
 // Global function to create chatbot widget
-export const createChatWidget = (config: ChatbotConfig = {}) => {
+export const createChatWidget = (config: ChatbotConfig ) => {
   // Set default values with design customization
   const fullConfig: ChatbotConfig = {
     selector: 'body',
     theme: 'light',
     position: 'bottom-right',
     welcomeMessage: 'Hi! How can I help you today?',
-    baseUrl: 'http://localhost:3001',
     design: { ...defaultDesign, ...config.design },
     ...config,
   };

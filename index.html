@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,16 +22,18 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
-</html>
+</html> -->
 
 
 
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <title>Test Page</title>
+  <!-- <link rel="stylesheet" href="https://chat.backend.sprintup.in/style.css"> -->
+   <link rel="stylesheet" href="./dist-widget/style.css">
 </head>
 
 <body>
@@ -42,11 +44,12 @@
   <script src="./dist-widget/chatbot.umd.js"></script>
   <script>
     // Basic usage - no token required, uses defaults
-    createChatWidget();
+    // createChatWidget();
     
     // Or with custom design
     createChatWidget({
       selector: '#chat-container',
+      baseUrl:"http://localhost:3000",
       welcomeMessage: 'Hello! How can I help?',
       design: {
         primaryColor: '#ff6b6b',
@@ -62,4 +65,4 @@
 
 </body>
 
-</html> -->
+</html>
