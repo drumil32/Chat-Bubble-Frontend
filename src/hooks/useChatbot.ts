@@ -1,10 +1,11 @@
 import { useState, useCallback } from 'react';
+import axios from 'axios';
 import { ChatMessage, ChatbotConfig, ChatResponse, ChatRequest } from '../types/chatbot';
 
 export const useChatbot = (config: ChatbotConfig) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [sessionToken, setSessionToken] = useState(config.token);
+  const [sessionToken, setSessionToken] = useState(config.token || '');
 
   const sendMessage = useCallback(async (messageText: string) => {
     // Add user message immediately
@@ -22,34 +23,28 @@ export const useChatbot = (config: ChatbotConfig) => {
       // Prepare request
       const request: ChatRequest = {
         message: messageText,
-        token: sessionToken,
+        ...(sessionToken && { token: sessionToken }),
       };
 
-      // Send to backend
-      const response = await fetch(`${config.baseUrl}/api/chat`, {
-        method: 'POST',
+      // Send to backend using axios
+      const response = await axios.post<ChatResponse>(`${config.baseUrl}/api/chat`, request, {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(request),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const data: ChatResponse = await response.json();
+      const data = response.data;
 
       if (data.success) {
         // Update session token if provided
-        if (data.token) {
-          setSessionToken(data.token);
+        if (data.data.token) {
+          setSessionToken(data.data.token);
         }
 
         // Add bot response
         const botMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
-          message: data.response,
+          message: data.data.reply,
           isUser: false,
           timestamp: new Date(),
         };

@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,11 +22,11 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
-</html> -->
+</html>
 
 
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -38,17 +38,28 @@
 
   <h1>Hello! This is a test page12</h1>
   <didv id="chat-container"></didv>
-  <!-- ⬇️ Paste your widget script here -->
+   ⬇️ Paste your widget script here 
   <script src="./dist-widget/chatbot.umd.js"></script>
   <script>
+    // Basic usage - no token required, uses defaults
+    createChatWidget();
+    
+    // Or with custom design
     createChatWidget({
       selector: '#chat-container',
-      token: 'YOUR_API_TOKEN',
-      baseUrl: 'https://your-api.com',
-      welcomeMessage: 'Hello! How can I help?'
+      welcomeMessage: 'Hello! How can I help?',
+      design: {
+        primaryColor: '#ff6b6b',
+        secondaryColor: '#e3f2fd',
+        backgroundColor: '#ffffff',
+        textColor: '#2c3e50',
+        borderRadius: '12px',
+        chatHeight: '500px',
+        chatWidth: '400px'
+      }
     });
   </script>
 
 </body>
 
-</html>
+</html> -->
