@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Minimize2 } from 'lucide-react';
-import { ChatMessage } from '../../types/chatbot';
+import { ChatMessage, LeadData } from '../../types/chatbot';
 import MessageBubble from './MessageBubble';
 import TypingIndicator from './TypingIndicator';
+import LeadForm from './LeadForm';
 import './chatbot.css';
 
 interface ChatWindowProps {
@@ -12,6 +13,8 @@ interface ChatWindowProps {
   onSendMessage: (message: string) => void;
   isTyping: boolean;
   welcomeMessage?: string;
+  onSubmitLead: (data: LeadData) => Promise<void>;
+  isSubmittingLead: boolean;
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
@@ -20,7 +23,9 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   messages,
   onSendMessage,
   isTyping,
-  welcomeMessage = "Hi! How can I help you today?"
+  welcomeMessage = "Hi! How can I help you today?",
+  onSubmitLead,
+  isSubmittingLead
 }) => {
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -80,8 +85,17 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
         )}
 
         {/* Messages */}
-        {messages.map((message) => (
-          <MessageBubble key={message.id} message={message} />
+        {messages.map((message, index) => (
+          <React.Fragment key={message.id}>
+            <MessageBubble message={message} />
+            {/* Show lead form after bot message if needsUserInfo is true */}
+            {!message.isUser && message.needsUserInfo && index === messages.length - 1 && !isTyping && (
+              <LeadForm 
+                onSubmit={onSubmitLead}
+                isSubmitting={isSubmittingLead}
+              />
+            )}
+          </React.Fragment>
         ))}
 
         {/* Typing Indicator */}

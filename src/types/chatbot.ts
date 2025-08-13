@@ -3,6 +3,7 @@ export interface ChatMessage {
   message: string;
   isUser: boolean;
   timestamp: Date;
+  needsUserInfo?: boolean;
 }
 
 export interface ChatbotDesign {
@@ -33,6 +34,30 @@ export interface ChatResponse {
   data: {
     reply: string;
     token: string;
+    conversationId: string;
+    messageCount: number;
+    isNewConversation: boolean;
+    needsUserInfo: boolean;
+  };
+}
+
+export interface LeadData {
+  name?: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface LeadSubmissionResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    leadId: string;
+    conversationId: string;
+    name?: string;
+    email?: string;
+    phone?: string;
+    createdAt: string;
+    updatedAt: string;
   };
 }
 

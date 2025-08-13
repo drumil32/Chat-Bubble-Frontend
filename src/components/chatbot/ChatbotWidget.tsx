@@ -10,7 +10,7 @@ interface ChatbotWidgetProps {
 
 const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ config }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, isTyping, sendMessage } = useChatbot(config);
+  const { messages, isTyping, sendMessage, submitLead, isSubmittingLead } = useChatbot(config);
 
   const toggleChat = () => {
     setIsOpen(prev => !prev);
@@ -31,6 +31,8 @@ const ChatbotWidget: React.FC<ChatbotWidgetProps> = ({ config }) => {
         onSendMessage={sendMessage}
         isTyping={isTyping}
         welcomeMessage={config.welcomeMessage}
+        onSubmitLead={submitLead}
+        isSubmittingLead={isSubmittingLead}
       />
     </div>
   );

@@ -1,11 +1,12 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
-import { ChatMessage, ChatbotConfig, ChatResponse, ChatRequest } from '../types/chatbot';
+import { ChatMessage, ChatbotConfig, ChatResponse, ChatRequest, LeadData, LeadSubmissionResponse } from '../types/chatbot';
 
 export const useChatbot = (config: ChatbotConfig) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [sessionToken, setSessionToken] = useState(config.token || '');
+  const [isSubmittingLead, setIsSubmittingLead] = useState(false);
 
   const sendMessage = useCallback(async (messageText: string) => {
     // Add user message immediately
@@ -47,6 +48,7 @@ export const useChatbot = (config: ChatbotConfig) => {
           message: data.data.reply,
           isUser: false,
           timestamp: new Date(),
+          needsUserInfo: data.data.needsUserInfo,
         };
 
         // Simulate realistic typing delay
@@ -79,10 +81,70 @@ export const useChatbot = (config: ChatbotConfig) => {
     setMessages([]);
   }, []);
 
+  const submitLead = useCallback(async (leadData: LeadData): Promise<void> => {
+    setIsSubmittingLead(true);
+    
+    try {
+      const response = await axios.post<LeadSubmissionResponse>(`${config.baseUrl}/api/leads-data`, {
+        conversationToken: sessionToken,
+        ...leadData,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.data.success) {
+        // Update messages to remove needsUserInfo flag from the last bot message
+        setMessages(prev => prev.map(msg => 
+          !msg.isUser && msg.needsUserInfo 
+            ? { ...msg, needsUserInfo: false }
+            : msg
+        ));
+
+        // Add a confirmation message
+        const confirmationMessage: ChatMessage = {
+          id: Date.now().toString(),
+          message: "Thank you for sharing your information! I can now assist you better.",
+          isUser: false,
+          timestamp: new Date(),
+          needsUserInfo: false,
+        };
+
+        setTimeout(() => {
+          setMessages(prev => [...prev, confirmationMessage]);
+        }, 300);
+      } else {
+        throw new Error(response.data.message || 'Failed to submit lead data');
+      }
+    } catch (error: any) {
+      console.error('Lead submission error:', error);
+      
+      // Add error message
+      const errorMessage: ChatMessage = {
+        id: Date.now().toString(),
+        message: 'Sorry, there was an issue saving your information. You can continue chatting, and I\'ll still do my best to help!',
+        isUser: false,
+        timestamp: new Date(),
+        needsUserInfo: false,
+      };
+
+      setTimeout(() => {
+        setMessages(prev => [...prev, errorMessage]);
+      }, 300);
+      
+      throw error; // Re-throw so the form can handle it
+    } finally {
+      setIsSubmittingLead(false);
+    }
+  }, [config.baseUrl, sessionToken]);
+
   return {
     messages,
     isTyping,
     sendMessage,
     clearMessages,
+    submitLead,
+    isSubmittingLead,
   };
 };
